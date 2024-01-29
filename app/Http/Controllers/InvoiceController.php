@@ -13,7 +13,7 @@ class InvoiceController extends Controller
     }
 
     public function searchInvoice(Request $request){
-        $keyword = $request->get('s');
+        $keyword = $request->input('keyword');
         $searchResult = Invoice::with('customer')->where('id', 'LIKE', "%$keyword%")->get();
         return response()->json($searchResult);
     }

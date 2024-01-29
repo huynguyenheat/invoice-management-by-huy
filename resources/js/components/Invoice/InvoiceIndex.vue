@@ -16,9 +16,11 @@ const getInvoiceList = async () => {
     //console.log(response);
 };
 const onSearch = async () => {
-    let response = await axios.get(
-        "/api/invoice/search?s=" + searchKeyword.value
-    );
+    let response = await axios.get("/api/invoice/search/", {
+        params: {
+            keyword: searchKeyword.value,
+        },
+    });
     invoiceList.value = response.data;
 };
 </script>
