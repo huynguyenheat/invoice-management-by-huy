@@ -1,0 +1,84 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    box-sizing: border-box;
+    font-family: MS Gothic;
+}
+.header {
+    margin-bottom: 2px;
+    color: rgb(209, 121, 7);
+    font-size: 1.6rem;
+    background-color: aquamarine;
+    padding: 0.5rem;
+}
+.page_not_found {
+    background-color: burlywood;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 90vh;
+    font-size: 1.5rem;
+    position: relative;
+}
+.page_not_found .routerlink {
+    position: absolute;
+    padding-top: 5rem;
+}
+.container {
+    width: 100%;
+    max-width: 950px;
+    margin: 0.5rem auto;
+}
+.InvoiceHeaderList {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    background-color: bisque;
+    border-radius: 0.25rem;
+}
+.btn {
+    padding: 0.5rem;
+    border-radius: 0.2rem;
+}
+.btn:hover {
+    background: aqua;
+}
+.btn.addnew {
+    margin-left: auto;
+}
+.searchArea {
+    background-color: darkkhaki;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    border-radius: 0.2rem;
+    display: flex;
+}
+.searchField {
+    padding: 0.5rem;
+    width: 100%;
+    margin-right: 0px;
+    margin-left: 0.5rem;
+}
+.listHeader {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    color: blue;
+    font-size: 14px;
+    font-weight: 1000;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 1.2rem;
+    margin-top: 1rem;
+    justify-items: center;
+}
+.listItem {
+    padding: 10px 30px !important;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 0.6rem 0;
+    justify-items: center;
+}
