@@ -2,7 +2,9 @@
 import Header from "./Header.vue";
 import { ref, onMounted } from "vue";
 import axios from "axios";
+import { useRouter } from "vue-router";
 
+let router = useRouter();
 let invoiceList = ref([]);
 let searchKeyword = ref([]);
 
@@ -23,6 +25,9 @@ const onSearch = async () => {
     });
     invoiceList.value = response.data;
 };
+const createInvoice = async () => {
+    router.push("/invoice/addnew");
+};
 </script>
 <template>
     <Header />
@@ -30,7 +35,12 @@ const onSearch = async () => {
         <!-- INVOICE HEADER -->
         <div class="InvoiceHeaderList">
             <div>Invoice List</div>
-            <input class="btn addnew" type="button" value="Add New Invoice" />
+            <input
+                class="btn addnew"
+                type="button"
+                value="Add New Invoice"
+                @click="createInvoice"
+            />
         </div>
         <!-- INVOICE SEARCH  -->
         <div class="searchArea">
