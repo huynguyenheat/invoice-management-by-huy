@@ -49,6 +49,39 @@
 .btn.addnew {
     margin-left: auto;
 }
+.btn__invoice {
+    display: flex;
+    position: relative;
+    align-items: center;
+}
+.btn__invoice--id {
+    position: relative;
+    width: 2rem;
+    height: 2rem;
+}
+.btn__invoice--id:hover {
+    cursor: pointer;
+}
+.overlay {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+.popup__invoice--id {
+    position: absolute;
+    z-index: 2;
+    margin-left: 2.2rem;
+}
+.popup__invoice--id li {
+    list-style-type: none;
+    padding: 0.3rem;
+    border: solid 0.5px;
+    background-color: coral;
+}
 .searchArea {
     background-color: darkkhaki;
     padding: 0.5rem;
@@ -81,6 +114,11 @@
     border-bottom: 1px solid #e0e0e0;
     padding: 0.6rem 0;
     justify-items: center;
+}
+.listItem {
+    /* overflow: hidden; */
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 /* NEW SCREEN */

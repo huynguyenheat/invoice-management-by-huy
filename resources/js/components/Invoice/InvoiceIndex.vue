@@ -10,7 +10,14 @@ let searchKeyword = ref([]);
 
 onMounted(async () => {
     getInvoiceList();
+    window.addEventListener("keydown", handleKeyDown);
 });
+
+const handleKeyDown = (e) => {
+    if (e.key === "Escape") {
+        togglePopupMenu();
+    }
+};
 
 const getInvoiceList = async () => {
     let response = await axios.get("/api/invoice/");
@@ -27,6 +34,15 @@ const onSearch = async () => {
 };
 const createInvoice = async () => {
     router.push("/invoice/addnew");
+};
+const togglePopupMenu = (index) => {
+    invoiceList.value.forEach((invoice, i) => {
+        if (i === index) {
+            invoice.isShowMenu = !invoice.isShowMenu;
+        } else {
+            invoice.isShowMenu = false;
+        }
+    });
 };
 </script>
 <template>
@@ -69,10 +85,31 @@ const createInvoice = async () => {
             </div>
             <div
                 class="listItem"
-                v-for="invoice in invoiceList"
-                :key="invoice.id"
+                v-for="(invoice, index) in invoiceList"
+                :key="index"
             >
-                <a href="#">{{ invoice.id }}</a>
+                <div class="btn__invoice">
+                    <input
+                        type="button"
+                        :value="invoice.id"
+                        @click="togglePopupMenu(index)"
+                        class="btn__invoice--id"
+                    />
+                    <div
+                        v-if="invoice.isShowMenu"
+                        class="overlay"
+                        @click.self="togglePopupMenu(index)"
+                    ></div>
+                    <ul
+                        class="popup__invoice--id"
+                        v-if="invoice.isShowMenu"
+                        @keydown.esc="togglePopupMenu(index)"
+                    >
+                        <li><a href="#">View</a></li>
+                        <li><a href="#">Edit</a></li>
+                        <li><a href="invoice/addnew/">Delete</a></li>
+                    </ul>
+                </div>
                 <p>{{ invoice.number }}</p>
                 <p>{{ invoice.customer.first_name }}</p>
                 <p>{{ invoice.date }}</p>
