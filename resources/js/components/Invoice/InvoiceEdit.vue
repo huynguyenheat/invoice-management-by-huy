@@ -6,24 +6,20 @@ import { useRouter } from "vue-router";
 
 let router = useRouter();
 let customers = ref([]);
-let lastInvoice = ref([]);
-let form = ref([]);
+let existInvoice = ref([]);
 let showModal = ref(false);
 let products = ref([]);
-let itemCart = ref([]);
 
-let newInvoiceNumber = computed(() => {
-    const id = parseInt(lastInvoice.value.id);
-    if (!isNaN(id)) {
-        return "INV-" + (id + 1);
-    } else {
-        return "INV-??";
-    }
+const props = defineProps({
+    id: {
+        type: String,
+        default: "",
+    },
 });
 
-onMounted(() => {
+onMounted(async () => {
     getListCustomer();
-    getLastInvoice();
+    getInvoice();
     getListProduct();
 });
 
@@ -31,9 +27,11 @@ const getListCustomer = async () => {
     let response = await axios.get("/api/customer/list/");
     customers.value = response.data;
 };
-const getLastInvoice = async () => {
-    let response = await axios.get("/api/invoice/lastinvoice/");
-    lastInvoice.value = response.data;
+const getInvoice = async () => {
+    let response = await axios.get(`/api/invoice/getexist/${props.id}`);
+    existInvoice.value = response.data.invoice;
+    // itemCart.value = response.data.invoice.invoice_items;
+    console.log(existInvoice.value);
 };
 const showModalProductSelect = () => {
     showModal.value = !showModal.value;
@@ -46,38 +44,59 @@ const getListProduct = async () => {
     products.value = response.data;
 };
 const addItemCart = (product) => {
-    itemCart.value.push(product);
+    let itemAdd = {
+        invoice_id: existInvoice.id,
+        product_id: product.id,
+        product: {
+            item_code: product.item_code,
+            unit_price: product.unit_price,
+        },
+        quantity: "",
+    };
+
+    existInvoice.value.invoice_items.push(itemAdd);
 };
-const deleteItem = (i) => {
-    itemCart.value.splice(i, 1);
+const deleteItem = (id, i) => {
+    existInvoice.value.invoice_items.splice(i, 1);
+    if (id != undefined) {
+        axios.get("/api/invoiceitem/delete/" + id);
+    }
 };
 const subTotal = () => {
     let subtotal = 0;
-    itemCart.value.map((data) => {
-        subtotal = data.unit_price * data.quantity + subtotal;
-    });
+    if (existInvoice.value.invoice_items) {
+        existInvoice.value.invoice_items.map((data) => {
+            if (data.product) {
+                subtotal = data.product.unit_price * data.quantity + subtotal;
+            }
+        });
+    }
     return subtotal;
 };
 const total = () => {
-    return subTotal() - form.value.discount;
+    return subTotal() - existInvoice.value.discount;
 };
-const onSaveInvoice = async () => {
+const onEditInvoice = () => {
+    //alert(JSON.stringify(existInvoice.value.invoice_items));
     let subtotal = 0;
     subtotal = subTotal();
     let totals = 0;
     totals = total();
     const formData = new FormData();
-    formData.append("customer_id", form.value.customer_id);
-    formData.append("date", form.value.date);
-    formData.append("due_date", form.value.due_date);
-    formData.append("number", newInvoiceNumber.value);
-    formData.append("reference", form.value.reference);
-    formData.append("terms", form.value.terms);
+    formData.append("customer_id", existInvoice.value.customer_id);
+    formData.append("date", existInvoice.value.date);
+    formData.append("due_date", existInvoice.value.due_date);
+    formData.append("number", existInvoice.value.number);
+    formData.append("reference", existInvoice.value.reference);
+    formData.append("terms", existInvoice.value.terms);
     formData.append("sub_total", subtotal);
-    formData.append("discount", form.value.discount);
+    formData.append("discount", existInvoice.value.discount);
     formData.append("total", totals);
-    formData.append("invoice_item", JSON.stringify(itemCart.value));
-    await axios.post("/api/invoice/addnew/post/", formData);
+    formData.append(
+        "invoice_item",
+        JSON.stringify(existInvoice.value.invoice_items)
+    );
+    axios.post(`/api/invoice/edit/${props.id}`, formData);
     router.push("/");
 };
 </script>
@@ -88,12 +107,18 @@ const onSaveInvoice = async () => {
         <div class="invoice--header">
             <div>
                 <p>Customer Name</p>
-                <select v-model="form.customer_id">
-                    <option disabled selected>Select customer</option>
+                <select v-model="existInvoice.customer_id">
                     <option
-                        v-for="(customer, i) in customers"
-                        :key="i"
+                        selected
+                        v-if="existInvoice.customer"
+                        :value="existInvoice.customer_id"
+                    >
+                        {{ existInvoice.customer.first_name }}
+                    </option>
+                    <option
                         :value="customer.id"
+                        v-for="customer in customers"
+                        :key="customer.id"
                     >
                         {{ customer.first_name }}
                     </option>
@@ -101,21 +126,26 @@ const onSaveInvoice = async () => {
             </div>
             <div>
                 <p>Date</p>
-                <input type="date" class="input--header" v-model="form.date" />
+                <input
+                    type="date"
+                    class="input--header"
+                    v-model="existInvoice.date"
+                />
                 <p>DueDate</p>
-                <input type="date" v-model="form.due_date" />
+                <input type="date" v-model="existInvoice.due_date" />
             </div>
             <div>
                 <p>Number</p>
                 <input
                     type="text"
                     class="input--header"
-                    v-model="newInvoiceNumber"
+                    v-model="existInvoice.number"
                 />
                 <p>Reference</p>
-                <input type="text" v-model="form.reference" />
+                <input type="text" v-model="existInvoice.reference" />
             </div>
         </div>
+
         <!-- INVOICE ITEM -->
         <div class="invoice--item">
             <input
@@ -131,27 +161,36 @@ const onSaveInvoice = async () => {
                 <p>Quantity</p>
                 <p>Amount</p>
             </div>
-            <div class="message--empty" v-if="itemCart.length === 0">
+            <!-- <div
+                class="message--empty"
+                v-if="existInvoice.invoice_items.length == 0"
+            >
                 Product List is empty now. Please click "Add New Product" to add
                 product into invoice.
-            </div>
+            </div> -->
             <div
                 class="table--item"
-                v-for="(item, i) in itemCart"
+                v-for="(item, i) in existInvoice.invoice_items"
                 :key="item.id"
             >
-                <p>{{ item.id }}</p>
-                <p>{{ item.item_code }}</p>
-                <p>{{ item.unit_price }}</p>
-                <div><input type="text" v-model="item.quantity" /></div>
+                <p>{{ item.product_id }}</p>
+                <p v-if="item.product">{{ item.product.item_code }}</p>
+                <p v-if="item.product">{{ item.product.unit_price }}</p>
+                <div>
+                    <input
+                        type="text"
+                        v-model="item.quantity"
+                        placeholder="0"
+                    />
+                </div>
                 <p v-if="item.quantity">
-                    {{ item.unit_price * item.quantity }}
+                    {{ item.product.unit_price * item.quantity }}
                 </p>
                 <p v-else>0</p>
                 <input
                     type="button"
                     class="btn__delete--item"
-                    @click="deleteItem(i)"
+                    @click="deleteItem(item.id, i)"
                     value="x"
                 />
             </div>
@@ -164,7 +203,7 @@ const onSaveInvoice = async () => {
                 <textarea
                     class="terms--area"
                     placeholder="Input terms"
-                    v-model="form.terms"
+                    v-model="existInvoice.terms"
                 />
             </div>
             <div class="total--area">
@@ -174,7 +213,7 @@ const onSaveInvoice = async () => {
                 </div>
                 <div class="total--field">
                     <span>Discount</span>
-                    <input type="text" v-model="form.discount" />
+                    <input type="text" v-model="existInvoice.discount" />
                 </div>
                 <div class="total--field">
                     <span>Total</span>
@@ -183,8 +222,8 @@ const onSaveInvoice = async () => {
                 <input
                     class="btn__add--invoice"
                     type="button"
-                    value="Add New Invoice"
-                    @click="onSaveInvoice"
+                    value="Update Invoice"
+                    @click="onEditInvoice"
                 />
             </div>
         </div>

@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use \App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\InvoiceItemController;
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -26,3 +28,7 @@ Route::get('/customer/list/',[CustomerController::class,'getListCustomer']);
 Route::get('/invoice/lastinvoice/',[InvoiceController::class,'getLastInvoice']);
 Route::get('/product/list/',[ProductController::class,'getListProduct']);
 Route::post('/invoice/addnew/post/',[InvoiceController::class,'addNewInvoice']);
+Route::get('/invoice/detail/{id}',[InvoiceController::class,'getInvoiceId']);
+Route::get('/invoice/getexist/{id}',[InvoiceController::class,'getExistInvoice']);
+Route::get('/invoiceitem/delete/{id}',[InvoiceItemController::class,'deleteInvoiceItem']);
+Route::post('/invoice/edit/{id}',[InvoiceController::class,'updateInvoice']);

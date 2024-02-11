@@ -22,7 +22,6 @@ const handleKeyDown = (e) => {
 const getInvoiceList = async () => {
     let response = await axios.get("/api/invoice/");
     invoiceList.value = response.data;
-    //console.log(response);
 };
 const onSearch = async () => {
     let response = await axios.get("/api/invoice/search/", {
@@ -32,7 +31,7 @@ const onSearch = async () => {
     });
     invoiceList.value = response.data;
 };
-const createInvoice = async () => {
+const createInvoice = () => {
     router.push("/invoice/addnew");
 };
 const togglePopupMenu = (index) => {
@@ -43,6 +42,9 @@ const togglePopupMenu = (index) => {
             invoice.isShowMenu = false;
         }
     });
+};
+const showInvoiceDetail = (id) => {
+    router.push("/invoice/show/" + id);
 };
 </script>
 <template>
@@ -105,8 +107,16 @@ const togglePopupMenu = (index) => {
                         v-if="invoice.isShowMenu"
                         @keydown.esc="togglePopupMenu(index)"
                     >
-                        <li><a href="#">View</a></li>
-                        <li><a href="#">Edit</a></li>
+                        <li>
+                            <a href="#" @click="showInvoiceDetail(invoice.id)"
+                                >View</a
+                            >
+                        </li>
+                        <li>
+                            <router-link :to="'/invoice/edit/' + invoice.id"
+                                >Edit</router-link
+                            >
+                        </li>
                         <li><a href="invoice/addnew/">Delete</a></li>
                     </ul>
                 </div>

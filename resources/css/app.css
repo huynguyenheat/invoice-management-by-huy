@@ -345,3 +345,108 @@
     border: 1px solid;
     padding: 0.5rem;
 }
+
+/* NEW SCREEN */
+/* INVOICE DETAIL */
+.container__detail {
+    max-width: 900px;
+    margin: auto;
+    padding: 0.5rem;
+    background-color: rgba(139, 241, 113, 0.3);
+    border-radius: 0.2rem;
+}
+.header__detail--main {
+    border: solid 1px;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 0.3rem;
+}
+.header__detail--main div {
+    margin: 0.5rem;
+}
+.header__detail--title {
+    font-size: 2rem;
+    color: chocolate;
+}
+.btn__pdf {
+    padding: 0.5rem;
+}
+.customer__detail {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    padding: 1rem 4rem;
+    border: solid 1px;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 0.3rem;
+}
+.customer__detail * {
+    font-size: 1.25rem;
+}
+.customer__numdate--row {
+    display: flex;
+    justify-content: space-between;
+}
+.invoice--item__table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+}
+.invoice--item__table th,
+.invoice--item__table td {
+    border: 1px solid #666565;
+    padding: 8px;
+    text-align: center;
+}
+.invoice--item__table th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+.invoice--item__table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+.invoice--item__table tbody tr:hover {
+    background-color: #ddd;
+}
+.subtotal {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 200px;
+}
+.subtotal > p {
+    margin: 1rem 2rem;
+}
+.subtotal__item {
+    display: flex;
+    justify-content: space-between;
+    margin: 0.5rem 2rem;
+}
+.subtotal__item p {
+    font-size: 1.5rem;
+    color: chocolate;
+}
+.total {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 200px;
+}
+.total__term {
+    margin-left: 2rem;
+    margin-bottom: 2rem;
+    padding: 0.5rem;
+    border: solid 1px rgba(0, 0, 0, 0.5);
+    border-radius: 0.3rem;
+}
+.total__term {
+    font-size: 1.2rem;
+}
+.total__item {
+    display: flex;
+    justify-content: space-between;
+    margin: 0.5rem 2rem;
+}
+.total__item p {
+    font-size: 1.75rem;
+    color: brown;
+}
