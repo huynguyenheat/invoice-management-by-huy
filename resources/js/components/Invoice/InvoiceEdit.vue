@@ -31,7 +31,7 @@ const getInvoice = async () => {
     let response = await axios.get(`/api/invoice/getexist/${props.id}`);
     existInvoice.value = response.data.invoice;
     // itemCart.value = response.data.invoice.invoice_items;
-    console.log(existInvoice.value);
+    // console.log(existInvoice.value);
 };
 const showModalProductSelect = () => {
     showModal.value = !showModal.value;

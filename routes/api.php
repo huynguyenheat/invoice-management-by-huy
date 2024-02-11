@@ -32,3 +32,4 @@ Route::get('/invoice/detail/{id}',[InvoiceController::class,'getInvoiceId']);
 Route::get('/invoice/getexist/{id}',[InvoiceController::class,'getExistInvoice']);
 Route::get('/invoiceitem/delete/{id}',[InvoiceItemController::class,'deleteInvoiceItem']);
 Route::post('/invoice/edit/{id}',[InvoiceController::class,'updateInvoice']);
+Route::get('/invoice/delete/{id}',[InvoiceController::class,'deleteInvoice']);

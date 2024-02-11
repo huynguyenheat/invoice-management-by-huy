@@ -1,7 +1,9 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import axios from "axios";
+import { useRouter } from "vue-router";
 
+let router = useRouter();
 let invoice = ref([]);
 const props = defineProps({
     id: {
@@ -19,6 +21,10 @@ const getInvoiceById = async () => {
     invoice.value = response.data.invoice;
     // console.log(invoice.value);
 };
+const exportPDF = () => {
+    window.print();
+    router.push("/");
+};
 </script>
 <template>
     <div class="container__detail">
@@ -28,7 +34,12 @@ const getInvoiceById = async () => {
                 <span>#ID: </span>
                 <span>{{ invoice.id }}</span>
             </div>
-            <input type="button" value="Export PDF" class="btn__pdf" />
+            <input
+                type="button"
+                value="Export PDF"
+                class="btn__pdf"
+                @click="exportPDF()"
+            />
         </div>
         <div>
             <div class="customer__detail">

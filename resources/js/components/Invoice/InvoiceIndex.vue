@@ -46,6 +46,10 @@ const togglePopupMenu = (index) => {
 const showInvoiceDetail = (id) => {
     router.push("/invoice/show/" + id);
 };
+const deleteInvoice = async (id) => {
+    await axios.get("/api/invoice/delete/" + id);
+    await getInvoiceList();
+};
 </script>
 <template>
     <Header />
@@ -75,6 +79,7 @@ const showInvoiceDetail = (id) => {
                 v-model="searchKeyword"
             />
         </div>
+
         <!-- INVOICE LIST -->
         <div>
             <div class="listHeader">
@@ -117,7 +122,11 @@ const showInvoiceDetail = (id) => {
                                 >Edit</router-link
                             >
                         </li>
-                        <li><a href="invoice/addnew/">Delete</a></li>
+                        <li>
+                            <a href="#" @click="deleteInvoice(invoice.id)"
+                                >Delete</a
+                            >
+                        </li>
                     </ul>
                 </div>
                 <p>{{ invoice.number }}</p>
