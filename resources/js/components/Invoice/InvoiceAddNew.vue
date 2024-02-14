@@ -62,6 +62,7 @@ const total = () => {
     return subTotal() - form.value.discount;
 };
 const onSaveInvoice = async () => {
+    await axios.get("/sanctum/csrf-cookie");
     let subtotal = 0;
     subtotal = subTotal();
     let totals = 0;
@@ -78,7 +79,13 @@ const onSaveInvoice = async () => {
     formData.append("total", totals);
     formData.append("invoice_item", JSON.stringify(itemCart.value));
     await axios.post("/api/invoice/addnew/post/", formData);
-    router.push("/");
+    // .catch((error) => {
+    //     if (error.response.status === 401) {
+    //         console.log("Error: opps Unauthorized");
+    //         alert("You dont have add new permission");
+    //     }
+    // });
+    router.push("/invoice/list");
 };
 </script>
 <template>

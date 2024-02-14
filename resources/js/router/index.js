@@ -1,5 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 
+import Register from "../components/authentication/Register.vue";
+import Login from "../components/authentication/Login.vue";
+
 import InvoiceIndex from "../components/invoice/InvoiceIndex.vue";
 import InvoiceDetail from "../components/invoice/InvoiceDetail.vue";
 import InvoiceAddNew from "../components/invoice/InvoiceAddNew.vue";
@@ -9,6 +12,14 @@ import NotFoundPage from "../components/NotFoundPage.vue";
 const routes = [
     {
         path: "/",
+        component: Login,
+    },
+    {
+        path: "/register",
+        component: Register,
+    },
+    {
+        path: "/invoice/list",
         component: InvoiceIndex,
     },
     {

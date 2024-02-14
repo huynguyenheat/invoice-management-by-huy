@@ -450,3 +450,62 @@
     font-size: 1.75rem;
     color: brown;
 }
+
+/* NEW SCREEN */
+.logo {
+    font-size: 3rem;
+    font-weight: bold;
+    text-align: center;
+    margin: 3rem;
+    color: #04aa6d;
+}
+/* LOGIN SCREEN */
+.login__input {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+.login__btn {
+    background-color: #04aa6d;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1.1rem;
+}
+
+/* NEW SCREEN
+LOGIN SCREEN */
+.register__introduce h1,
+.register__introduce p {
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    color: cadetblue;
+}
+.register__input {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+.register__btn {
+    background-color: #04aa6d;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1.1rem;
+}
+.cancel {
+    background-color: #5b5d5e;
+    color: white;
+}

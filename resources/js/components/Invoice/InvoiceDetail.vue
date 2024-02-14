@@ -23,7 +23,7 @@ const getInvoiceById = async () => {
 };
 const exportPDF = () => {
     window.print();
-    router.push("/");
+    router.push("/invoice/list");
 };
 </script>
 <template>

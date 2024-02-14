@@ -97,7 +97,7 @@ const onEditInvoice = () => {
         JSON.stringify(existInvoice.value.invoice_items)
     );
     axios.post(`/api/invoice/edit/${props.id}`, formData);
-    router.push("/");
+    router.push("/invoice/list");
 };
 </script>
 <template>
